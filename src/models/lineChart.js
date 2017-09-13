@@ -183,6 +183,10 @@ nv.models.lineChart = function() {
                     .attr("transform", "translate(" + availableWidth + ",0)");
             }
 
+            if (showYAxis && yTickValues) {
+              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+            }
+
             //Set up interactive layer
             if (useInteractiveGuideline) {
                 interactiveLayer
@@ -222,10 +226,6 @@ nv.models.lineChart = function() {
                     .scale(y)
                     ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
-
-                if (yTickValues) {
-                  yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
-                }
             }
 
             //============================================================

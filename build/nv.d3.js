@@ -8097,6 +8097,10 @@ nv.models.lineChart = function() {
                     .attr("transform", "translate(" + availableWidth + ",0)");
             }
 
+            if (showYAxis && yTickValues) {
+              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+            }
+
             //Set up interactive layer
             if (useInteractiveGuideline) {
                 interactiveLayer
@@ -8136,10 +8140,6 @@ nv.models.lineChart = function() {
                     .scale(y)
                     ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
-
-                if (yTickValues) {
-                  yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
-                }
             }
 
             //============================================================
@@ -14706,6 +14706,10 @@ nv.models.scatterChart = function() {
 
             wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+            if (showYAxis && yTickValues) {
+              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+            }
+
             // Main Chart Component(s)
             scatter
                 .width(availableWidth)
@@ -14777,10 +14781,6 @@ nv.models.scatterChart = function() {
                     .scale(y)
                     ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
-
-                if (yTickValues) {
-                  yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
-                }
 
                 g.select('.nv-y.nv-axis')
                     .call(yAxis);
