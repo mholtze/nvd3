@@ -35,6 +35,7 @@ nv.models.scatterChart = function() {
         , noData       = null
         , duration = 250
         , showLabels    = false
+        , yTickValues = null
         ;
 
     scatter.xScale(x).yScale(y);
@@ -246,8 +247,12 @@ nv.models.scatterChart = function() {
             if (showYAxis) {
                 yAxis
                     .scale(y)
-                    ._ticks( nv.utils.calcTicksY(availableHeight/36, data) )
+                    ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
+
+                if (yTickValues) {
+                  yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+                }
 
                 g.select('.nv-y.nv-axis')
                     .call(yAxis);
@@ -364,6 +369,7 @@ nv.models.scatterChart = function() {
         noData:     {get: function(){return noData;}, set: function(_){noData=_;}},
         duration:   {get: function(){return duration;}, set: function(_){duration=_;}},
         showLabels: {get: function(){return showLabels;}, set: function(_){showLabels=_;}},
+        yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
 
         // options that require extra logic in the setter
         margin: {get: function(){return margin;}, set: function(_){

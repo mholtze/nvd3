@@ -33,6 +33,7 @@ nv.models.lineChart = function() {
         , noData = null
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , duration = 250
+        , yTickValues = null
         ;
 
     // set options on sub-objects for this chart
@@ -219,8 +220,12 @@ nv.models.lineChart = function() {
             if (showYAxis) {
                 yAxis
                     .scale(y)
-                    ._ticks( nv.utils.calcTicksY(availableHeight/36, data) )
+                    ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
+
+                if (yTickValues) {
+                  yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+                }
             }
 
             //============================================================
@@ -478,6 +483,7 @@ nv.models.lineChart = function() {
         focusShowAxisX:    {get: function(){return focus.showXAxis();}, set: function(_){focus.showXAxis(_);}},
         focusShowAxisY:    {get: function(){return focus.showYAxis();}, set: function(_){focus.showYAxis(_);}},
         brushExtent: {get: function(){return focus.brushExtent();}, set: function(_){focus.brushExtent(_);}},
+        yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
 
         // options that require extra logic in the setter
         focusMargin: {get: function(){return focus.margin}, set: function(_){
