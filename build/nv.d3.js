@@ -1,4 +1,4 @@
-/* nvd3 version 1.8.6-dev (https://github.com/novus/nvd3) 2017-09-13 */
+/* nvd3 version 1.8.6-dev (https://github.com/novus/nvd3) 2018-08-14 */
 (function(){
 
 // set up main nv object
@@ -7948,6 +7948,9 @@ nv.models.lineChart = function() {
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , duration = 250
         , yTickValues = null
+        , xTickValues = null
+        , calcTicksY = null
+        , calcTicksX = null
         ;
 
     // set options on sub-objects for this chart
@@ -8097,8 +8100,11 @@ nv.models.lineChart = function() {
                     .attr("transform", "translate(" + availableWidth + ",0)");
             }
 
+            if (showXAxis && xTickValues) {
+              xTickValues(xAxis, (calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data), data)
+            }
             if (showYAxis && yTickValues) {
-              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+              yTickValues(yAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
             }
 
             //Set up interactive layer
@@ -8126,19 +8132,18 @@ nv.models.lineChart = function() {
             var linesWrap = g.select('.nv-linesWrap')
                 .datum(data.filter(function(d) { return !d.disabled; }));
 
-
             // Setup Main (Focus) Axes
             if (showXAxis) {
                 xAxis
                     .scale(x)
-                    ._ticks(nv.utils.calcTicksX(availableWidth/100, data) )
+                    ._ticks((calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data))
                     .tickSize(-availableHeight, 0);
             }
 
             if (showYAxis) {
                 yAxis
                     .scale(y)
-                    ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
+                    ._ticks((calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
             }
 
@@ -8398,6 +8403,9 @@ nv.models.lineChart = function() {
         focusShowAxisY:    {get: function(){return focus.showYAxis();}, set: function(_){focus.showYAxis(_);}},
         brushExtent: {get: function(){return focus.brushExtent();}, set: function(_){focus.brushExtent(_);}},
         yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
+        xTickValues: {get: function(){return xTickValues;}, set: function(_){xTickValues=_;}},
+        calcTicksY: {get: function(){return calcTicksY;}, set: function(_){calcTicksY=_;}},
+        calcTicksX: {get: function(){return calcTicksX;}, set: function(_){calcTicksX=_;}},
 
         // options that require extra logic in the setter
         focusMargin: {get: function(){return focus.margin}, set: function(_){
@@ -14564,6 +14572,9 @@ nv.models.scatterChart = function() {
         , duration = 250
         , showLabels    = false
         , yTickValues = null
+        , xTickValues = null
+        , calcTicksY = null
+        , calcTicksX = null
         ;
 
     scatter.xScale(x).yScale(y);
@@ -14706,8 +14717,11 @@ nv.models.scatterChart = function() {
 
             wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+            if (showXAxis && xTickValues) {
+              xTickValues(xAxis, (calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data), data)
+            }
             if (showYAxis && yTickValues) {
-              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+              yTickValues(yAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
             }
 
             // Main Chart Component(s)
@@ -14768,7 +14782,7 @@ nv.models.scatterChart = function() {
             if (showXAxis) {
                 xAxis
                     .scale(x)
-                    ._ticks( nv.utils.calcTicksX(availableWidth/100, data) )
+                    ._ticks((calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data))
                     .tickSize( -availableHeight , 0);
 
                 g.select('.nv-x.nv-axis')
@@ -14779,7 +14793,7 @@ nv.models.scatterChart = function() {
             if (showYAxis) {
                 yAxis
                     .scale(y)
-                    ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
+                    ._ticks((calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
 
                 g.select('.nv-y.nv-axis')
@@ -14898,6 +14912,9 @@ nv.models.scatterChart = function() {
         duration:   {get: function(){return duration;}, set: function(_){duration=_;}},
         showLabels: {get: function(){return showLabels;}, set: function(_){showLabels=_;}},
         yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
+        xTickValues: {get: function(){return xTickValues;}, set: function(_){xTickValues=_;}},
+        calcTicksY: {get: function(){return calcTicksY;}, set: function(_){calcTicksY=_;}},
+        calcTicksX: {get: function(){return calcTicksX;}, set: function(_){calcTicksX=_;}},
 
         // options that require extra logic in the setter
         margin: {get: function(){return margin;}, set: function(_){
