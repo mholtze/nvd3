@@ -34,6 +34,9 @@ nv.models.lineChart = function() {
         , dispatch = d3.dispatch('stateChange', 'changeState', 'renderEnd')
         , duration = 250
         , yTickValues = null
+        , xTickValues = null
+        , calcTicksY = null
+        , calcTicksX = null
         ;
 
     // set options on sub-objects for this chart
@@ -184,7 +187,10 @@ nv.models.lineChart = function() {
             }
 
             if (showYAxis && yTickValues) {
-              yTickValues(yAxis, nv.utils.calcTicksY(availableHeight/36, data), data)
+              yTickValues(yAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
+            }
+            if (showXAxis && xTickValues) {
+              yTickValues(xAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
             }
 
             //Set up interactive layer
@@ -212,19 +218,18 @@ nv.models.lineChart = function() {
             var linesWrap = g.select('.nv-linesWrap')
                 .datum(data.filter(function(d) { return !d.disabled; }));
 
-
             // Setup Main (Focus) Axes
             if (showXAxis) {
                 xAxis
                     .scale(x)
-                    ._ticks(nv.utils.calcTicksX(availableWidth/100, data) )
+                    ._ticks((calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data) )
                     .tickSize(-availableHeight, 0);
             }
 
             if (showYAxis) {
                 yAxis
                     .scale(y)
-                    ._ticks(nv.utils.calcTicksY(availableHeight/36, data))
+                    ._ticks((calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data))
                     .tickSize( -availableWidth, 0);
             }
 
@@ -484,6 +489,9 @@ nv.models.lineChart = function() {
         focusShowAxisY:    {get: function(){return focus.showYAxis();}, set: function(_){focus.showYAxis(_);}},
         brushExtent: {get: function(){return focus.brushExtent();}, set: function(_){focus.brushExtent(_);}},
         yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
+        xTickValues: {get: function(){return xTickValues;}, set: function(_){xTickValues=_;}},
+        calcTicksY: {get: function(){return calcTicksY;}, set: function(_){calcTicksY=_;}},
+        calcTicksX: {get: function(){return calcTicksX;}, set: function(_){calcTicksX=_;}},
 
         // options that require extra logic in the setter
         focusMargin: {get: function(){return focus.margin}, set: function(_){
