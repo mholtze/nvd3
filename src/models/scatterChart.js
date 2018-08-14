@@ -376,6 +376,9 @@ nv.models.scatterChart = function() {
         duration:   {get: function(){return duration;}, set: function(_){duration=_;}},
         showLabels: {get: function(){return showLabels;}, set: function(_){showLabels=_;}},
         yTickValues: {get: function(){return yTickValues;}, set: function(_){yTickValues=_;}},
+        xTickValues: {get: function(){return xTickValues;}, set: function(_){xTickValues=_;}},
+        calcTicksY: {get: function(){return calcTicksY;}, set: function(_){calcTicksY=_;}},
+        calcTicksX: {get: function(){return calcTicksX;}, set: function(_){calcTicksX=_;}},
 
         // options that require extra logic in the setter
         margin: {get: function(){return margin;}, set: function(_){
