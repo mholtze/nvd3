@@ -186,11 +186,11 @@ nv.models.lineChart = function() {
                     .attr("transform", "translate(" + availableWidth + ",0)");
             }
 
+            if (showXAxis && xTickValues) {
+              xTickValues(xAxis, (calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data), data)
+            }
             if (showYAxis && yTickValues) {
               yTickValues(yAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
-            }
-            if (showXAxis && xTickValues) {
-              yTickValues(xAxis, (calcTicksY || nv.utils.calcTicksY)(availableHeight/36, data), data)
             }
 
             //Set up interactive layer
@@ -222,7 +222,7 @@ nv.models.lineChart = function() {
             if (showXAxis) {
                 xAxis
                     .scale(x)
-                    ._ticks((calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data) )
+                    ._ticks((calcTicksX || nv.utils.calcTicksX)(availableWidth/100, data))
                     .tickSize(-availableHeight, 0);
             }
 
